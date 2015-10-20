@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+from .command import Command
 """
 service "example-measurement-name"
     option method       "ping"
@@ -12,8 +13,9 @@ service "example-measurement-name"
 """
 
 def file_read(f, mq):
+    m = None
     for line in f:
-        line_arr = line.split(' ')
+        line_arr = line.strip().split()
         if len(line_arr) == 0: 
             continue
         if line_arr[0] == "service":
@@ -38,11 +40,11 @@ class Measurement:
 
     def parse(self, options):
         if(len(options) != 2):
-            print "Unexpected options: " + options
+            print "Unexpected options: " + str(options)
             return 
 
         key = options[0]
-        val = optinos[1]
+        val = options[1]
         if key == "method":
             self.cmd.add_method(val)
         elif key == "argument":

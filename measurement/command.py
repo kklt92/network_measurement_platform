@@ -3,11 +3,11 @@ import platform
 class Command:
     def __init__(self):
         self.cmd = []
-        self.system = platform.system().toLowerCase()
+        self.system = platform.system().lower()
 
     def add_method(self, method):
         if self.system == "linux":
-            if method.toLowerCase() == "ping":
+            if method.lower() == "ping":
                 self.cmd.insert(0, "ping")
                 self.method = "ping"
     def add_arg(self, arg):
