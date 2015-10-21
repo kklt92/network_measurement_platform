@@ -1,14 +1,18 @@
 import time
 import thread
-from subprocess import call
+from subprocess import Popen, PIPE, call
 
 def exec_measurement(thread_name, rqueue, cqueue):
     while True:
         while len(rqueue) == 0:
-            time.sleep(10)
+            time.sleep(1)
         m = rqueue.pop(0)
-        call(m.cmd.cmd, stdout=m.report)
+        print m.cmd.cmd
+        #call(m.cmd.cmd, stdout=m.report)
+        p = Popen(m.cmd.cmd, stdin=PIPE, stdout=PIPE, stderr=PIPE)
+        m.report = p.communicate()
         cqueue.append(m)
+        print str(m.report[0])
 
 class Measurements:
     def __init__(self):

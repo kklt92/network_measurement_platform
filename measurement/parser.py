@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from .command import Command
+import re
 """
 service "example-measurement-name"
     option method       "ping"
@@ -18,12 +19,13 @@ def file_read(f, mq):
         line_arr = line.strip().split()
         if len(line_arr) == 0: 
             continue
+        value = re.findall(r"['\"](.*?)['\"]", line)
         if line_arr[0] == "service":
             if m:
                 mq.ready_queue.append(m)
             m = Measurement(line_arr[1])
         elif line_arr[0] == "option":
-            m.parse(line_arr[1:])
+            m.parse(line_arr[1], value[0])
         else:
             print "Unsupported arguments: " + line
     if m:
@@ -36,15 +38,10 @@ class Measurement:
     def __init__(self, name):
         self.name = name
         self.cmd = Command()
-        self.report = ""
+        self.report = None
 
-    def parse(self, options):
-        if(len(options) != 2):
-            print "Unexpected options: " + str(options)
-            return 
-
-        key = options[0]
-        val = options[1]
+    def parse(self, option, val):
+        key = option
         if key == "method":
             self.cmd.add_method(val)
         elif key == "argument":
