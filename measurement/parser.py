@@ -19,7 +19,9 @@ def file_read(f, mq):
         line_arr = line.strip().split()
         if len(line_arr) == 0: 
             continue
+        line = re.sub(r'#.*$', '', line) # ignore comment
         value = re.findall(r"['\"](.*?)['\"]", line)
+
         if line_arr[0] == "service":
             if m:
                 mq.ready_queue.append(m)
