@@ -30,7 +30,7 @@ class Measurements:
         
         try:
             # TODO thread.start_new_thread(query)
-            thread.start_new_thread(query_instruction, ("query"))
+            thread.start_new_thread(query_instruction)
             thread.start_new_thread(exec_experiment, ("experiment", self.ready_queue, self.completed_queue))
             # TODO thread.start_new_thread(report)
         except:
