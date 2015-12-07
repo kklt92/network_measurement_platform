@@ -35,3 +35,6 @@ class Command:
                 self.cmd.append("-s " + arg[1])
     def add_dest(self, dest):
         self.cmd.append(dest)
+        
+
+# TODO actual command we execute in result.
