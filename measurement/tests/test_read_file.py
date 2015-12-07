@@ -2,7 +2,7 @@ def main():
     f = open("testcases/ping_test.conf", "r")
     import measurement
     mq = measurement.Measurements()
-    measurement.file_read(f, mq) 
+    
     while True:
         counter = 0
         while counter < 10000000:
